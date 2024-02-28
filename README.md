@@ -1,4 +1,4 @@
-# Authentication-JWT
+# JWT-Authentication
 
 This repository contains code examples and best practices for implementing user authentication using JSON Web Tokens (JWT) in a React and Go application.
 
