@@ -1,12 +1,11 @@
-// src/pages/HomePage.js
-
 import React from "react";
 
-const HomePage = () => {
-  console.log("Home Page");
+const HomePage = ({ userName }) => {
+  console.log("Home Page userName", userName);
+
   return (
     <div>
-      <h2>Home Page</h2>
+      <h2>{userName ? "Welcome, " + userName : "You are not Logged In"}</h2>
       {/* Add your home page content here */}
     </div>
   );

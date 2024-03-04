@@ -28,6 +28,8 @@ func Register(c *fiber.Ctx) error {
 			"error": "Failed to parse request body",
 		})
 	}
+
+	fmt.Println("User name: ", data["name"], "email", data["email"])
 	
 	// Check if the email already exists
 	var existingUser models.User
@@ -44,6 +46,7 @@ func Register(c *fiber.Ctx) error {
 		})
 	}
 	
+	fmt.Println("Creating User...")
 	user := &models.User{
 		Name:     data["name"],
 		Email:    data["email"],
@@ -55,6 +58,7 @@ func Register(c *fiber.Ctx) error {
 		})
 	}
 
+	fmt.Println("User registered successfully")
     return c.JSON(fiber.Map{
         "message": "User registered successfully",
     })}
@@ -70,6 +74,8 @@ func Register(c *fiber.Ctx) error {
 			})
 		}
 	
+		fmt.Println("User email", data)
+
 		// Check if user exists
 		var user models.User
 		database.DB.Where("email = ?", data["email"]).First(&user)
@@ -88,7 +94,8 @@ func Register(c *fiber.Ctx) error {
 				"message": "Invalid credentials",
 			})
 		}
-	
+		
+		fmt.Println("Generating JWT token")
 		// Generate JWT token
 		claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 			"sub": strconv.Itoa(int(user.ID)), 
@@ -101,6 +108,8 @@ func Register(c *fiber.Ctx) error {
 				"error": "Failed to generate token",
 			})
 		}
+
+		fmt.Println("Setting cookie")
 	
 		// Set JWT token in cookie
 		cookie := fiber.Cookie{
@@ -111,7 +120,8 @@ func Register(c *fiber.Ctx) error {
 			Secure:   true,
 		}
 		c.Cookie(&cookie)
-	
+		
+		fmt.Println("Authentication successful, returning")
 		// Authentication successful, return success response
 		return c.Status(fiber.StatusAccepted).JSON(fiber.Map{
 			"message": "Login successful",
@@ -150,6 +160,7 @@ func Register(c *fiber.Ctx) error {
 	
 		// Query user from database using ID
 		database.DB.Where("id =?", id).First(&user)
+		fmt.Println("user", c.JSON(user))
 	
 		// Return user details as JSON response
 		return c.JSON(user)

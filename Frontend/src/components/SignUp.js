@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./sign-in.css"; // Import custom styles
 
-const SignUp = ({ onSubmit }) => {
+const SignUp = ({ onSubmit, responseMessage, setResponseMessage }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -107,7 +107,7 @@ const SignUp = ({ onSubmit }) => {
         <button className="btn btn-primary w-100 py-2" type="submit">
           Register
         </button>
-        <p className="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
+        {responseMessage && <p className="mt-5 mb-3 text-body-secondary">{responseMessage}</p>}
       </form>
     </main>
   );
